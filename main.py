@@ -1,6 +1,15 @@
 import random
 
-print("Welcome to Hangman!")
+print("Welcome to Hangman! You get 6 wrong guesses to find the word. Good Luck!")
+print("""
+    ______
+    |    |
+         |
+         |
+         |
+         |
+   =========
+""")
 
 stages_art = [
     """
@@ -96,16 +105,17 @@ placeholder = ""
 for position in range(word_length):
     placeholder += "_"
 
-end_of_game = False
 lives = 6
 
 game_over = False
 correct_letters = []
 
 while not game_over:
-    guess = input("Guess a letter: ").lower()
-
     display = ""
+    guess = input("Guess a letter: ").lower()
+    if len(guess) != 1 or not guess.isalpha():
+        print("Please enter a single letter.")
+        continue
 
     for letter in chosen_word:
         if letter == guess:
@@ -122,10 +132,11 @@ while not game_over:
         lives -= 1
         if lives == 0:
             game_over = True
+            print(f"The word was: {chosen_word}")
             print("You lose!")
+        if not game_over:
+            print(stages_art[lives])
 
-        if "_" not in display:
-            game_over = True
-            print("You win!")
-
-        print(stages_art[lives])
+    if "_" not in display:
+        game_over = True
+        print("You win!")
